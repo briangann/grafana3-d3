@@ -1,0 +1,12 @@
+bower_components
+node_modules
+.DS-Store
+
+# Editor junk
+*.sublime-workspace
+*.swp
+.idea/
+*.iml
+grafana
+grafana-sdk
+dist

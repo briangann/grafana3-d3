@@ -1,0 +1,40 @@
+{
+    "type": "app",
+    "name": "Grafana3 D3",
+    "id": "grafana3-d3",
+
+    "css": {
+        "dark": "css/dark.css",
+        "light": "css/light.css",
+        "podux": "css/d3.css"
+    },
+
+    "info": {
+        "description": "D3 App for Grafana3",
+        "author": {
+            "name": "Brian Gann (bkgann@gmail.com",
+            "url": "http://github.com/briangann/grafana3-d3"
+        },
+        "keywords": ["grafana grafana3 panels d3 d3js"],
+        "logos": {
+            "small": "img/small_logo.png",
+            "large": "img/large_logo.png"
+        },
+        "links": [{
+            "name": "Project site",
+            "url": "https://github.com/briangann/grafana3-d3"
+        }],
+        "version": "0.0.1",
+        "updated": "2015-09-11"
+    },
+
+    "includes": [{
+        "type": "panel",
+        "name": "D3 Histogram Panel"
+    }],
+
+    "dependencies": {
+        "grafanaVersion": "3.x.x",
+        "plugins": []
+    }
+}

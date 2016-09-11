@@ -1,0 +1,5 @@
+{
+  "type": "panel",
+  "name": "D3 Graph Panel",
+  "id": "grafana3-d3-graph-panel"
+}

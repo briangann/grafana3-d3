@@ -1,0 +1,33 @@
+{
+  "name": "grafana3-d3",
+  "description": "D3-based panels for Grafana3",
+  "main": "",
+  "authors": [
+    "Brian Gann <bkgann@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "grafana3 d3 d3js"
+  ],
+  "homepage": "https://github.com/briangann/grafana3-d3",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "^4.2.2",
+    "ng-d3": "^1.0.2",
+    "angular": "^1.5.8",
+    "angular-animate": "^1.5.8",
+    "angular-aria": "^1.5.8",
+    "angular-messages": "^1.5.8",
+    "angular-ui-bootstrap": "^2.0.2",
+    "bootstrap": "^3.3.7",
+    "lodash": "^4.15.0",
+    "font-awesome": "^4.6.3"
+  }
+}
