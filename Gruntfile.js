@@ -10,12 +10,22 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-typescript');
   grunt.loadNpmTasks('grunt-multi-dest');
   grunt.loadNpmTasks('grunt-babel');
+  grunt.loadNpmTasks('grunt-typings');
+  grunt.loadNpmTasks('grunt-force-task');
+  grunt.loadNpmTasks('grunt-ts');
 
   grunt.initConfig({
 
     pkg: grunt.file.readJSON('package.json'),
     clean: ["dist"],
 
+    typings: {
+      install: {
+        options: {
+          cwd: 'src'
+        }
+      }
+    },
     copy: {
       main: {
         cwd: 'src',
@@ -71,7 +81,7 @@ module.exports = function(grunt) {
     tslint: {
       options: {
         // Task-specific options go here.
-        configuration: "tslint.json"
+        configuration: "src/tslint.json"
       },
       files: {
           // Target-specific file lists and/or options go here.
@@ -79,15 +89,62 @@ module.exports = function(grunt) {
       },
     },
 
-    typescript: {
-      base: {
-        src: ['src/**/*.ts', '!node_modules'],
+    ts: {
+      default: {
+        tsconfig: {
+          tsconfig: 'src/tsconfig.json',
+          overwriteFilesGlob: false
+        },
         dest: 'dist',
         options: {
-          module: 'commonjs', //or commonjs
-          target: 'es6', //or es3
+          fast: 'never',
+          verbose: true,
+          module: 'commonjs',
+          target: 'es2015',
+          moduleResolution: 'node',
           sourceMap: true,
-          declaration: true
+          declaration: true,
+          emitDecoratorMetadata: true,
+          experimentalDecorators: true,
+          removeComments: false,
+          noImplicitUseStrict: true,
+          noImplicitAny: false,
+          noImplicitThis: false,
+          references: [
+            'src/typings/index.d.ts',
+            'node_modules/grafana-sdk-test/headers/common.d.ts'
+          ]
+        }
+      }
+    },
+
+    typescript: {
+      base: {
+        src: [
+          '!src/typings',
+          'src/**/*.ts',
+          '!node_modules'
+        ],
+        dest: 'dist',
+        options: {
+          module: 'commonjs',
+          failOnTypeErrors: false,
+          target: 'es2015',
+          sourceMap: true,
+          declaration: true,
+          diagnostics: true,
+          moduleResolution: 'node',
+          emitDecoratorMetadata: true,
+          experimentalDecorators: true,
+          removeComments: false,
+          noImplicitUseStrict: true,
+          noImplicitAny: false,
+          noImplicitThis: false,
+          references: [
+            'src/typings/index.d.ts'
+            //'src/typings/**/*.d.ts'
+            //'node_modules/grafana-sdk-test/headers/common.d.ts'
+          ]
         }
       }
     },
@@ -112,8 +169,12 @@ module.exports = function(grunt) {
 
   });
 
+
+          //'force:typescript',
+          //'ts:default',
   grunt.registerTask('default', [
           'clean',
+          'force:typescript',
           'multidest',
           'babel']);
   grunt.registerTask('ugh', ['clean', 'multidest', 'packageModules', 'babel']);

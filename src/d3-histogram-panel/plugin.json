@@ -1,0 +1,5 @@
+{
+  "type": "panel",
+  "name": "D3 Histogram Panel",
+  "id": "grafana3-d3-histogram-panel"
+}

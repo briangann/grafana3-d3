@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "sourceMap": true,
+        "declaration": true,
+        "noImplicitAny": false,
+        "target": "es2015",
+        "module": "commonjs",
+        "noEmitOnError": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "moduleResolution": "node",
+        "noImplicitUseStrict": true
+    },
+    "compileOnSave": false,
+    "filesGlob": [
+        "!node_modules/**",
+        "!src/typings/**",
+        "!typings/**",
+        "**/*.ts",
+        "**/*.tsx"
+    ]
+}

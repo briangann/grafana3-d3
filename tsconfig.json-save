@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "sourceMap": true,
+        "declaration": true,
+        "noImplicitAny": false,
+        "target": "es2015",
+        "module": "commonjs",
+        "noEmitOnError": false,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "moduleResolution": "classic",
+        "noImplicitUseStrict": true
+    },
+    "compileOnSave": false,
+    "filesGlob": [
+        "!node_modules/**",
+        "!src/typings/**",
+        "!typings/**",
+        "!tools/**",
+        "!node_modules/grafana-sdk-test/app/headers/es6-shim/es6-shim.d.ts",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+    ],
+    "files": [
+        "src/d3-histogram-panel/module.ts"
+    ]
+}

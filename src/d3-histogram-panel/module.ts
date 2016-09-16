@@ -1,17 +1,28 @@
-import {MetricsPanelCtrl} from 'app/plugins/sdk';
+import {MetricsPanelCtrl} from 'grafana-sdk-test';
 import * as _ from 'lodash';
 import * as $ from 'jquery';
-//import * as d3 from './external/d3.v4.min.js';
 import * as d3 from 'd3';
-import './css/d3_graph.css!';
+import {scaleLinear} from "d3-scale";
+import {histogram} from "d3-array";
+import {axisBottom} from "d3-axis";
+//import * as d3x from 'd3-axis'
+import './css/panel.css!';
 
+class D3HistogramPanelCtrl extends MetricsPanelCtrl {
 
-export class D3GraphPanelCtrl extends MetricsPanelCtrl {
+  static templateUrl = 'partials/template.html';
+  //static templateUrl = 'd3-histogram-panel/partials/template.html';
+
+  initialized: boolean = false;
+  panelContainer: any = null;
+  svg: any = null;
+  scoperef: any;
+  panelWidth: any;
+  panelHeight: any;
+  $scope: any;
+
   constructor($scope, $injector) {
     super($scope, $injector);
-    this.initialized = false;
-    this.panelContainer = null;
-    this.svg = null;
     this.scoperef = $scope;
     console.log("D3GraphPanelCtrl constructor!");
     this.events.on('init-edit-mode', this.onInitEditMode.bind(this));
@@ -21,12 +32,14 @@ export class D3GraphPanelCtrl extends MetricsPanelCtrl {
 
   onInitEditMode() {
     // determine the path to this plugin
-    var panels = grafanaBootData.settings.panels;
+    var panels = (<any>window).grafanaBootData.settings.panels;
+    // alternative considered bad form...
+    // var panels = window['grafanaBootData.settings.panels'];
     var thisPanel = panels[this.pluginId];
     var thisPanelPath = thisPanel.baseUrl + '/';
     // add the relative path to the partial
     var optionsPath = thisPanelPath + 'd3-graph-panel/partials/editor.options.html';
-    this.addEditorTab('Options', optionsPath, 2);
+    //this.addEditorTab('Options', optionsPath, 2);
   }
 
   /**
@@ -77,23 +90,23 @@ export class D3GraphPanelCtrl extends MetricsPanelCtrl {
     this.panelWidth = this.getPanelWidth();
     this.panelHeight = this.getPanelHeight();
 
-    var data = d3.range(1000).map(d3.randomBates(10));
+    var data = d3.range(1000).map(d3.random.bates(10));
     var formatCount = d3.format(",.0f");
 
     var margin = {top: 10, right: 0, bottom: 30, left: 0};
     var width = this.panelWidth;
     var height = this.panelHeight;
     console.log("panelWidth = " + width + " height = " + height);
-    var x = d3.scaleLinear()
+    var x: any = d3.scale.linear()
         .rangeRound([0, width]);
 
-    var bins = d3.histogram()
+    var bins = histogram()
         .domain(x.domain())
         .thresholds(x.ticks(10))
         (data);
 
-    var y = d3.scaleLinear()
-        .domain([0, d3.max(bins, function(d) { return d.length; })])
+    var y: any = d3.scale.linear()
+        .domain([0, d3.max(bins, function(d: any) { return d.length; })])
         .range([height, 0]);
 
     // clear out the old div
@@ -114,24 +127,24 @@ export class D3GraphPanelCtrl extends MetricsPanelCtrl {
         .data(bins)
         .enter().append("g")
         .attr("class", "bar")
-        .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; });
+        .attr("transform", function(d: any) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; });
 
     bar.append("rect")
         .attr("x", 1)
         .attr("width", x(bins[0].x1) - x(bins[0].x0) - 3)
-        .attr("height", function(d) { return height - y(d.length); });
+        .attr("height", function(d: any) { return height - y(d.length); });
 
     bar.append("text")
         .attr("dy", ".75em")
         .attr("y", 6)
         .attr("x", (x(bins[0].x1) - x(bins[0].x0)) / 2)
         .attr("text-anchor", "middle")
-        .text(function(d) { return formatCount(d.length); });
+        .text(function(d: any) { return formatCount(d.length); });
 
     svg.append("g")
         .attr("class", "axis axis--x")
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x));
+        .call(axisBottom(x));
 
     this.svg = svg;
     console.log("leaving renderD3");
@@ -143,6 +156,8 @@ export class D3GraphPanelCtrl extends MetricsPanelCtrl {
     // force a render
     this.onRender();
   }
-
 }
-D3GraphPanelCtrl.templateUrl = 'd3-graph-panel/partials/template.html';
+export {
+  D3HistogramPanelCtrl,
+  D3HistogramPanelCtrl as PanelCtrl
+};
